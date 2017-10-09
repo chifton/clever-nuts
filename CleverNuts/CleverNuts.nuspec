@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>CleverNuts</id>
+	 <version>0.0.0.0</version>
+    <title>CleverNuts</title>
+    <description>Awale real-time playing</description>
+	<authors>Chift</authors>
+    <owners>Chift</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>$copyright$</copyright>
+    <tags>CleverNuts</tags>
+  </metadata>
+  <files>
+    <file src="*.*" target="" exclude="*.config;*.cs;*.csproj;*.html;*.ico;*.user;" />
+	<file src="Web.Deploy.config" target="Web.config" />
+	<file src="favicon2.ico" target="favicon2.ico" />
+  </files>
+</package>

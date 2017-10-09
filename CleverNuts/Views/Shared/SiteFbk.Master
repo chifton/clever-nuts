@@ -1,0 +1,233 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="System.Web.Security" %>
+<!DOCTYPE html>
+<html lang="fr">
+    <head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+        <link href="<%: Url.Content("~/cool.ico") %>" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <%: Styles.Render("~/Content/css") %>
+        <%: Scripts.Render("~/bundles/modernizr") %>
+        <script type="text/javascript" src="../Scripts/jquery-1.8.2.js"></script>
+        <script src="../../Scripts/jquery.alerts.js"></script>
+        <script type="text/javascript" src="../Scripts/soundmanager2.js"></script>
+        <script src="../../Scripts/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="../Scripts/fire-0.62.min.js"></script>
+        <script type="text/javascript">
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                // Création image de chargement
+                var imageload = document.createElement("div");
+                imageload.id = "imagechargement";
+                imageload.style.height = "19px";
+                imageload.style.width = "220px";
+                var w = $(window).width();
+                var h = $(window).height();
+                var divW = $(imageload).width();
+                var divH = $(imageload).height();
+                imageload.style.backgroundImage = "url('../Images/loadingawl.gif')";
+                imageload.style.top = (h / 2) - (divH / 2) + "px";
+                imageload.style.left = (w / 2) - (divW / 2) + "px";
+                imageload.style.position = "absolute";
+                imageload.style.zIndex = "1";
+                body.appendChild(imageload);
+                $("body").block({
+                    message: "LOADING...",
+                    css: {
+                        color: 'white',
+                        backgroundImage: 'url("../Images/fond4.png")'
+                    }
+                });
+
+                $(window).on('load', function () {
+                    document.getElementById('imagechargement').style.display = 'none';
+                    $("body").unblock();
+                });
+
+                // Code JAVASCRIPT ET AUTRE POUR LE MASTER PAGE UNIQUEMENT
+
+                var footer = document.querySelector("footer");
+                // A FAIRE APRES AVEC GESTION ET AUTRES ANIMATIONS
+
+                // Pour l'animation du statut de connexion
+                $('#imageconnected').bind('fade-cycle', function () {
+                    $(this).fadeOut(1000, function () {
+                        $(this).fadeIn(1000, function () {
+                            $(this).trigger('fade-cycle');
+                        });
+                    });
+                });
+                $('#imageconnected').each(function (index, elem) {
+                    setTimeout(function () {
+                        $(elem).trigger('fade-cycle');
+                    }, index * 250);
+                });
+
+
+                // Dimensionnement du titre
+                var image = document.querySelector(".imagetitle");
+                $(".imagetitle").hover(function () {
+                    $(this).animate({ width: 700 }, 1000, "linear");
+                }, function () { $(this).animate({ width: 500 }, 1000, "linear"); });
+
+                // Pour la musique en continu à travers les pages (across the pages)
+                soundManager.url = 'swf/';
+                soundManager.onready(function () {
+                    // first, make the sound
+                    soundManager.createSound({
+                        id: 'sonAWL',
+                        url: '/Sounds/back.mp3',
+                        autoplay: true,
+                        autoload: true,
+                        loops: 1000000000,
+                        volume: 60
+                    });
+                    // then, see if we have a cookie for a "last position" value
+                    var lastPositionValue = getCookie("lastPosition");
+                    if (lastPositionValue) {
+                        soundManager.load('sonAWL', {
+                            // need to load the whole thing, then we can start at position X
+                            onload: function () {
+                                this.play({ position: lastPositionValue });
+                            }
+                        });
+                    }
+                });
+                window.onbeforeunload = function () {
+                    var mySound = soundManager.getSoundById('sonAWL');
+                    if (mySound && mySound.playState > 0 && mySound.position) {
+                        // sound is playing
+                        document.cookie = "lastPosition=" + mySound.position;
+                    } else {
+                        // no sound, or not playing etc. Save empty value.
+                        document.cookie = "lastPosition=" + null;
+                    }
+                }
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i].trim();
+                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+                    }
+                    return "";
+                }
+
+                // Pour arrêter la musique ou la remettre
+                var volume = document.querySelector(".imagevolume");
+                var sourd = false;
+                volume.addEventListener("click", function (e) {
+                    if (!sourd) {
+                        soundManager.muteAll();
+                        sourd = true;
+                        document.cookie = "mute=sourd";
+                        document.getElementById("imagevolume").style.borderColor = "red";
+                    }
+                    else {
+                        soundManager.unmuteAll();
+                        sourd = false;
+                        document.cookie = "mute=entendant";
+                        document.getElementById("imagevolume").style.borderColor = "green";
+                    }
+                });
+
+                // Dois-je mettre le soundManager à mute ou unMuute ?
+                var mycookie = readCookie("mute");
+                if (mycookie != null) {
+                    if (mycookie == "sourd") {
+                        soundManager.muteAll();
+                        sourd = true;
+                        document.getElementById("imagevolume").style.borderColor = "red";
+
+                    }
+                    else if (mycookie == "entendant") {
+                        soundManager.unmuteAll();
+                        sourd = false;
+                        document.getElementById("imagevolume").style.borderColor = "green";
+                    }
+                }
+
+                // Mise à jour du nombre de nutters en ligne
+                setInterval(function () {
+                    var urlNombreNutters = "/Home/nbdevisiteurs";
+                    $.get(urlNombreNutters, null, function (dataNumber) {
+                        $("#zerty").text("");
+                        $("#zerty").text(dataNumber);
+                    });
+                }, 1000);
+
+                // Fonction de lecture de cookie
+                function readCookie(name) {
+                    var nameEQ = name + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                    }
+                    return null;
+                }
+
+                // Envoie un signal lors de la fermeture pour diminuer le nombre de visiteurs
+                var myEvent = window.attachEvent || window.addEventListener;
+                var chkevent = window.attachEvent ? 'onbeforeunload' : 'beforeunload'; /// make IE7, IE8 compitable
+
+                myEvent(chkevent, function (e) { // For >=IE7, Chrome, Firefox
+                    var urlcoolendlast2 = "/Home/diminue";
+                    $.get(urlcoolendlast2, null, function (dataendawl) {
+                        console.log("Diminution effectuée !")
+                    });
+                });
+            });
+        </script>
+    
+    </head>
+    
+    <body>
+        <header>
+                    <a href="<%= Url.Action("Index", "Home") %>">
+                        <img  class="imagetitle" src="<%= Url.Content("../../Images/titre.png") %>" />
+                    </a>
+        </header>
+
+        <div id="body">
+            <div id="alertPanel" ></div> <!-- Div vide -->
+                <div class="float-right">
+
+                    <% if (Convert.ToString(ViewData["ici"]) == "facebook") {
+                        %>
+                    <section id="login">
+                        <%: Html.Partial("_LoginPartialFbk") %>
+                    </section>    <% }
+                    else {
+                        %>
+                    <section id="login">
+                        <%: Html.Partial("_LoginPartial") %>
+                    </section>    <% }  %>           
+
+                </div>
+
+            <asp:ContentPlaceHolder ID="FeaturedContent" runat="server" />
+            <section class="content-wrapper">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </section>
+        </div>
+                    <footer>
+                        <br />
+                                    <span class="boutons1">
+            <a class="boutondisparait" href="<%= Url.Action("Index", "Home") %>"><img src="<%= Url.Content("../../Images/homepage.png") %>" /></a>
+        </span>&copy; <%: DateTime.Now.Year %> - Design by @Chift - Clever Nuts 1.1 - <span id="zerty"></span> visitors online - <%: OnlineActiveUsers.OnlineUsersInstance.OnlineUsers.UsersCount %> nutters online<br /><!--<a href="<%= Url.Action("Index", "EmailMe") %>" id="contactCool">Contact</a> - --><a href="<%= Url.Action("Index", "Licences") %>" id="contactCool">Legal notices</a> - <a href="<%= Url.Action("Index", "Credits") %>" id="contactCool">Credits</a> - <a href="http://www.sebastien-laframboise.com">Seb Images</a><div id="flammes"><img id="imagevolume" class="imagevolume" src="<%= Url.Content("../../Images/volume.png") %>" title="Volume On/Off" style="border: 2px double green;"/></div><br />
+                        <!--<form id="formulairedons" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="ZKJ7G4PZLVY8Q">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+</form>-->
+</footer>
+
+        <asp:ContentPlaceHolder ID="ScriptsSection" runat="server" />
+    </body>
+</html>

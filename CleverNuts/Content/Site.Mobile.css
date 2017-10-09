@@ -1,0 +1,47 @@
+﻿.view-switcher {
+    padding: 0.5em; 
+    font-weight: normal;
+}
+
+body {
+    position : relative;
+    display : block;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    min-height : 100%;
+    min-width : 100%;
+    overflow:scroll;
+    margin : auto;
+    padding-bottom:0px;
+    margin-bottom :0px;
+    text-align: center;
+    background-image:url("../Images/arbre1.png"), url("../Images/arbre2.png"), url("../Images/fond2.png");
+    background-position: left top, right center, left top;
+    background-repeat:no-repeat, no-repeat, repeat;
+    border-bottom : double 2px;
+    border-top : double 2px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #e80c4d;
+    font-weight: bold;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input[type="text"].input-validation-error,
+input[type="password"].input-validation-error {
+    border: solid 1px #e80c4d;
+}
+
+.validation-summary-errors {
+    color: #e80c4d;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.validation-summary-valid {
+    display: none;
+}
