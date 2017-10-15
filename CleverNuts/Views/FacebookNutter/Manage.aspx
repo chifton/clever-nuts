@@ -26,7 +26,7 @@
                     FB.ui({
                         method: 'pay',
                         action: 'purchaseitem',
-                        product: 'https://www.clevernuts.org/Static/SimpleNuts.html',
+                        product: 'http://www.clevernuts.org/Static/SimpleNuts.html',
                         quantity: 1
                         //request_id: requestID
                     }, function (datapaiement) {
@@ -50,7 +50,7 @@
                     FB.ui({
                         method: 'pay',
                         action: 'purchaseitem',
-                        product: 'https://www.clevernuts.org/Static/BronzeNuts.html',
+                        product: 'http://www.clevernuts.org/Static/BronzeNuts.html',
                         quantity: 1
                         //request_id: requestID
                     }, function (datapaiement) {
@@ -73,7 +73,7 @@
                     FB.ui({
                         method: 'pay',
                         action: 'purchaseitem',
-                        product: 'https://www.clevernuts.org/Static/GoldNuts.html',
+                        product: 'http://www.clevernuts.org/Static/GoldNuts.html',
                         quantity: 1
                         //request_id: requestID
                     }, function (datapaiement) {
@@ -96,7 +96,7 @@
                     FB.ui({
                         method: 'pay',
                         action: 'purchaseitem',
-                        product: 'https://www.clevernuts.org/Static/PackageNuts.html',
+                        product: 'http://www.clevernuts.org/Static/PackageNuts.html',
                         quantity: 1
                         //request_id: requestID
                     }, function (datapaiement) {

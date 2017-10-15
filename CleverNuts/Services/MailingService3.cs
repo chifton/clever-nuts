@@ -17,7 +17,7 @@ namespace CleverNuts.Services
         private string path = HttpContext.Current.Server.MapPath("~/Images/affiche2.png");
 
         // L'url de base de votre site web.
-        private const string SitewebUrl = "https://www.clevernuts.org/";
+        private const string SitewebUrl = "http://www.clevernuts.org/";
 
         // Ces informations-ci doivent être correctes pour pouvoir envoyer un email!
         private const string SmtpServerUrl = "smtp.gmail.com";

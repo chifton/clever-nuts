@@ -293,7 +293,7 @@
                                     <span class="boutons1">
             <a class="boutondisparait" href="<%= Url.Action("Index", "Home") %>"><img src="<%= Url.Content("../../Images/homepage.png") %>" /></a>
         </span>&copy; <%: DateTime.Now.Year %> - Design by @Chift - Clever Nuts 1.1 - <span id="zerty"></span> visitors online - <%: OnlineActiveUsers.OnlineUsersInstance.OnlineUsers.UsersCount %> nutters online<br /><!--<a href="<%= Url.Action("Index", "EmailMe") %>" id="contactCool">Contact</a> - --><a href="<%= Url.Action("Index", "Licences") %>" id="contactCool">Legal notices</a> - <a href="<%= Url.Action("Index", "Credits") %>" id="contactCool">Credits</a> - <a href="http://www.sebastien-laframboise.com">Seb Images</a><div id="flammes"><img id="imagevolume" class="imagevolume" src="<%= Url.Content("../../Images/volume.png") %>" title="Volume On/Off" style="border: 2px double green;"/></div><br />
-                        <span style="color:white;">Facebook :<a href="https://apps.facebook.com/clevernuts"> https://apps.facebook.com/clevernuts </a> --- Website : <a href="https://www.clevernuts.org"> https://www.clevernuts.org</a></span>
+                        <span style="color:white;">Facebook :<a href="https://apps.facebook.com/clevernuts"> https://apps.facebook.com/clevernuts </a> --- Website : <a href="http://www.clevernuts.org"> http://www.clevernuts.org</a></span>
                         <!--<form id="formulairedons" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="ZKJ7G4PZLVY8Q">
